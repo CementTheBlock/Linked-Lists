@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 typedef struct node 
 {
@@ -31,7 +32,7 @@ void node_append(node_t * head, int val)
     current->next->next = NULL;
 }
 
-void node_prepend(node_t ** head, int val)
+void push(node_t ** head, int val)
 {
     node_t * new_node;
     new_node = malloc(sizeof(node_t));
@@ -138,7 +139,102 @@ int remove_by_value(node_t ** head, int n)
     return val;
 }
 
+int linked_list_len(node_t * list)
+{
+    int i = 0;
+    node_t * current = list;
+    if (current == NULL)
+    {
+        return i;
+    }
+
+    i++;
+
+    while (current->next != NULL)
+    {
+        current = current->next;
+        i++;
+    }
+    return i;
+}
+
+int compare_lists (node_t * list1, node_t * list2)
+{
+    if (linked_list_len(list1) != linked_list_len(list2))
+    {
+        return 0;
+    }
+    else if ((linked_list_len(list1) == 0) && (linked_list_len(list2) == 0))
+    {
+        return 1;
+    }
+    {
+
+    node_t * current1 = list1;
+    node_t * current2 = list2;
+    while(current1->next != NULL)
+    {
+        if (current1->val != current2->val)
+        {
+            return 0;
+        }
+        current1 = current1->next;
+        current2 = current2->next;
+    }
+
+    return 1;
+    }
+}
+
 int main()
 {
+    node_t * test_list;
+    test_list = malloc(sizeof(node_t));
+    test_list->val = 98;
+    test_list->next = malloc (sizeof(node_t));
+    test_list->next->val = 37;
+    test_list->next->next = malloc (sizeof(node_t));
+    test_list->next->next->val = 42;
+    test_list->next->next->next = malloc (sizeof(node_t));
+    test_list->next->next->next->val = 2;
+    test_list->next->next->next->next = malloc (sizeof(node_t));
+    test_list->next->next->next->next->val = 5;
+    test_list->next->next->next->next->next = NULL;
+
+    assert(linked_list_len(test_list) == 5);
+    assert(compare_lists(test_list, test_list));
+
+    node_t * list_copy = test_list;
+    node_t * list_copy1 = test_list;
+    assert(compare_lists(list_copy, list_copy1));
+
+    push(&list_copy, 5);
+    pop(&list_copy);
+    assert(compare_lists(list_copy, list_copy1));
+
+    node_append(list_copy, 5);
+    remove_last(list_copy);
+    assert(compare_lists(list_copy, list_copy1));
+
+    /*print_list(test_list);
+
+    node_append(test_list, 7);
+    print_list(test_list);
+
+    push(&test_list, 13);
+    print_list(test_list);
+
+    printf("%d\n", pop(&test_list));
+    print_list(test_list);
+
+    printf("%d\n", remove_last(test_list));
+    print_list(test_list);
+
+    printf("%d\n", remove_by_index(&test_list, 3));
+    print_list(test_list);
+
+    printf("%d\n", remove_by_value(&test_list, 2));
+    print_list(test_list);*/
+
     return 0;
 }
