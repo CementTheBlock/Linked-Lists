@@ -168,7 +168,7 @@ int compare_lists (node_t * list1, node_t * list2)
     {
         return 1;
     }
-    {
+    
 
     node_t * current1 = list1;
     node_t * current2 = list2;
@@ -183,7 +183,7 @@ int compare_lists (node_t * list1, node_t * list2)
     }
 
     return 1;
-    }
+    
 }
 
 int main()
