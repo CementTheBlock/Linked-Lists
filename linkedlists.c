@@ -168,7 +168,6 @@ int compare_lists (node_t * list1, node_t * list2)
     {
         return 1;
     }
-    
 
     node_t * current1 = list1;
     node_t * current2 = list2;
@@ -186,6 +185,34 @@ int compare_lists (node_t * list1, node_t * list2)
     
 }
 
+node_t * array_to_list(int arry[], size_t size)
+{
+    node_t * retlist = NULL;
+    retlist = malloc(sizeof(node_t));
+    retlist->next = NULL;
+    retlist->val = 0;
+    
+    node_t * current = retlist;
+
+
+    for (int i = 0; i < size; i++)
+    {
+       current->val = arry[i];
+       if (!(i + 1 < size))
+       {
+           current->next = NULL;
+       }
+       else
+       {
+           current->next = malloc(sizeof(node_t));
+           current = current->next;
+       }
+
+    }
+        
+    return retlist;
+}
+
 int main()
 {
     node_t * test_list;
@@ -201,6 +228,8 @@ int main()
     test_list->next->next->next->next->val = 5;
     test_list->next->next->next->next->next = NULL;
 
+    int test_array [5] = {98, 37, 42, 2, 5};
+
     assert(linked_list_len(test_list) == 5);
     assert(compare_lists(test_list, test_list));
 
@@ -215,6 +244,8 @@ int main()
     node_append(list_copy, 5);
     remove_last(list_copy);
     assert(compare_lists(list_copy, list_copy1));
+
+    assert(compare_lists(test_list, (array_to_list(test_array, (size_t)(sizeof(test_array) / sizeof(test_array[0]))))));
 
     /*print_list(test_list);
 
